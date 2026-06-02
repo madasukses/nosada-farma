@@ -151,6 +151,14 @@
   .cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
   .cart-total-label { font-size: 13px; color: var(--gray-text); }
   .cart-total-amount { font-size: 18px; font-weight: 700; color: var(--purple-dark); }
+  .btn-lanjut-belanja {
+    width: 100%; background: var(--white); color: var(--purple);
+    border: 1.5px solid var(--purple); border-radius: 12px;
+    padding: 11px; font-size: 13px; font-weight: 600;
+    font-family: var(--font-body); cursor: pointer;
+    margin-bottom: 10px; transition: background 0.15s;
+  }
+  .btn-lanjut-belanja:hover { background: var(--purple-light); }
   .btn-checkout { width: 100%; background: var(--wa-green); color: white; border: none; border-radius: 12px; padding: 13px; font-size: 14px; font-weight: 600; font-family: var(--font-body); cursor: pointer; }
   .btn-checkout:hover { opacity: 0.88; }
   .btn-checkout:disabled { opacity: 0.45; cursor: not-allowed; }
@@ -267,7 +275,7 @@
       <p>Cari obat, tambahkan ke keranjang, pesan via WhatsApp.</p>
       <div class="hero-badges">
         <span class="hero-badge">📋 Apotek resmi</span>
-        <span class="hero-badge">🕐 Buka 08.00–21.00</span>
+        <span class="hero-badge">🕐 Buka 07.00–21.00</span>
         <span class="hero-badge">🛵 Antar area Kediri</span>
       </div>
     </div>
@@ -326,6 +334,9 @@
       <span class="cart-total-label">Total:</span>
       <span class="cart-total-amount" id="cartTotalAmount">Rp 0</span>
     </div>
+    <button class="btn-lanjut-belanja" onclick="toggleCart()">
+      ← Lanjut Belanja
+    </button>
     <button class="btn-checkout" id="btnCheckout" disabled onclick="showOrderModal()">
       Lanjut ke WhatsApp 💬
     </button>
