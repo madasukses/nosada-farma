@@ -99,7 +99,9 @@
   .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; }
   .card { background: var(--white); border-radius: 12px; border: 1px solid var(--gray-border); overflow: hidden; display: flex; flex-direction: column; transition: border-color 0.15s, transform 0.15s; animation: fadeUp 0.25s ease both; }
   .card:hover { border-color: var(--purple-mid); transform: translateY(-2px); }
-  .card-img { background: var(--purple-light); height: 88px; display: flex; align-items: center; justify-content: center; position: relative; font-size: 32px; }
+  .card-img { background: var(--purple-light); height: 100px; display: flex; align-items: center; justify-content: center; position: relative; font-size: 32px; overflow: hidden; }
+  .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card-img .img-fallback { font-size: 32px; }
   .card-badge { position: absolute; top: 7px; left: 7px; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
   .badge-resep { background: #FFF0C2; color: #7A5000; }
   .badge-otc   { background: #E1F5EE; color: #0F6E56; }
@@ -368,7 +370,7 @@
 const SHEET_ID  = '1cBldbqvTBOs4GLZzL0d2fpxat-cbu3v7NlvGMlg1bLI';
 const WA_NUMBER = '6285735013424';
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1`;
-const COL = { kode:0, nama:1, pabrik:2, golongan:3, kategori:4, stok:10, satuan:11, harga:18 };
+const COL = { kode:0, nama:1, pabrik:2, golongan:3, kategori:4, stok:10, satuan:11, harga:18, gambar:25 };
 const ICONS = { default:'💊', topikal:'🧴', vitamin:'🌟', antibiotik:'💉', antifungi:'🍄', analgesik:'🩹', lambung:'🫁', mata:'👁️', tetes:'💧', sirup:'🧪', salep:'🧴' };
 
 let allData=[], searchVal='', cartItems=[], sliderIndex=0;
@@ -548,7 +550,11 @@ function render() {
       : `alert('Stok habis. Tanya apoteker untuk info ketersediaan.')`;
     return `<div class="card" style="animation-delay:${(i%20)*25}ms">
       <div class="card-img">
-        ${getIcon(d.kategori)}
+        ${d.gambar
+          ? `<img src="${d.gambar}" alt="${d.nama}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+             <span class="img-fallback" style="display:none;position:absolute;">${getIcon(d.kategori)}</span>`
+          : `<span class="img-fallback">${getIcon(d.kategori)}</span>`
+        }
         <span class="card-badge ${isOTC?'badge-otc':'badge-resep'}">${isOTC?'Bebas':'Resep'}</span>
       </div>
       <div class="card-body">
@@ -584,6 +590,7 @@ async function loadData() {
         stok:     parseNum(v(COL.stok)),
         satuan:   String(v(COL.satuan)||'').trim(),
         harga:    parseNum(v(COL.harga)),
+        gambar:   String(v(COL.gambar)||'').trim(),
       };
     }).filter(d => d.nama && d.harga > 0);
     render();
