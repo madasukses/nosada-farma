@@ -8,6 +8,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Syne:wght@700&display=swap" rel="stylesheet"/>
 <style>
+  html { touch-action: pan-x pan-y; }
+  body { touch-action: pan-x pan-y; }
+  input, textarea, select { font-size: 16px !important; }
+
   :root {
     --purple:       #534AB7;
     --purple-dark:  #3C3489;
@@ -405,6 +409,21 @@ function toggleFaq(btn) {
   const item = btn.parentElement;
   item.classList.toggle('open');
 }
+</script>
+
+<script>
+document.addEventListener('touchstart', function(e) {
+  if (e.touches.length > 1) e.preventDefault();
+}, { passive: false });
+let lastTap = 0;
+document.addEventListener('touchend', function(e) {
+  const now = Date.now();
+  if (now - lastTap < 300) e.preventDefault();
+  lastTap = now;
+}, { passive: false });
+document.addEventListener('gesturestart', function(e) {
+  e.preventDefault();
+}, { passive: false });
 </script>
 </body>
 </html>
