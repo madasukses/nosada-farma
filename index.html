@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Syne:wght@700&display=swap" rel="stylesheet"/>
 <style>
-  /* ===== VARIABEL ===== */
   :root {
     --purple:       #534AB7;
     --purple-dark:  #3C3489;
@@ -25,13 +24,8 @@
     --red-text:     #A32D2D;
     --font-display: 'Syne', sans-serif;
     --font-body:    'Plus Jakarta Sans', sans-serif;
-    --radius-sm:    8px;
-    --radius-md:    12px;
-    --radius-lg:    18px;
-    --radius-xl:    24px;
   }
 
-  /* ===== RESET ===== */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
@@ -42,7 +36,6 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ===== HEADER ===== */
   header {
     background: var(--purple-deep);
     padding: 0 20px;
@@ -69,7 +62,7 @@
   .brand-icon {
     width: 34px; height: 34px;
     background: var(--purple);
-    border-radius: var(--radius-sm);
+    border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
     font-size: 16px;
   }
@@ -84,13 +77,38 @@
     color: var(--purple-mid);
     margin-top: 1px;
   }
-  .header-search {
+  .header-center {
     flex: 1;
-    max-width: 420px;
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
   }
+  .nav-link {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: background 0.15s, color 0.15s;
+    font-family: var(--font-body);
+    font-weight: 500;
+  }
+  .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
+  .nav-link.active { background: rgba(255,255,255,0.2); color: white; }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .header-search {
+    position: relative;
+    display: none;
+  }
+  .header-search.show { display: block; }
   .header-search input {
-    width: 100%;
     background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,255,255,0.15);
     border-radius: 30px;
@@ -99,51 +117,96 @@
     color: white;
     font-family: var(--font-body);
     outline: none;
-    transition: background 0.2s, border-color 0.2s;
+    width: 280px;
+    transition: background 0.2s;
   }
   .header-search input::placeholder { color: rgba(255,255,255,0.45); }
-  .header-search input:focus {
-    background: rgba(255,255,255,0.16);
-    border-color: var(--purple-mid);
-  }
-  .header-search .ico-search {
-    position: absolute;
-    left: 12px; top: 50%;
-    transform: translateY(-50%);
-    color: rgba(255,255,255,0.5);
-    font-size: 15px;
-    pointer-events: none;
-  }
-  .btn-wa-header {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--wa-green);
-    color: white;
+  .header-search input:focus { background: rgba(255,255,255,0.16); }
+  .header-search .ico { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.5); pointer-events: none; }
+  
+  .btn-cart {
+    position: relative;
+    background: rgba(255,255,255,0.15);
     border: none;
     border-radius: 30px;
     padding: 8px 14px;
-    font-size: 13px;
-    font-family: var(--font-body);
-    font-weight: 500;
+    color: white;
     cursor: pointer;
+    font-size: 14px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     white-space: nowrap;
-    text-decoration: none;
-    transition: opacity 0.15s;
-    flex-shrink: 0;
   }
-  .btn-wa-header:hover { opacity: 0.88; }
+  .btn-cart:hover { background: rgba(255,255,255,0.25); }
+  .cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #FF6B6B;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+  }
 
-  /* ===== HERO BANNER ===== */
-  .hero {
+  .banner-slider {
+    position: relative;
     background: var(--purple);
+    overflow: hidden;
+    height: 240px;
+  }
+  .slider-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .slider-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    background-size: cover;
+    background-position: center;
+  }
+  .slider-slide.active { opacity: 1; }
+  .slider-dots {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .dot.active { background: white; width: 24px; border-radius: 4px; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
     padding: 24px 20px;
   }
   .hero-inner {
     max-width: 900px;
     margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
   }
   .hero-text h1 {
     font-family: var(--font-display);
@@ -172,16 +235,13 @@
     font-size: 12px;
     color: white;
   }
-  .hero-badge svg { width:13px; height:13px; flex-shrink:0; }
 
-  /* ===== MAIN ===== */
   .main {
     max-width: 900px;
     margin: 0 auto;
     padding: 20px 20px 60px;
   }
 
-  /* ===== KATEGORI ===== */
   .cats-wrap { margin-bottom: 20px; }
   .cats-label {
     font-size: 12px;
@@ -216,7 +276,6 @@
     color: white;
   }
 
-  /* ===== STATUS BAR ===== */
   .status-bar {
     display: flex;
     align-items: center;
@@ -229,7 +288,6 @@
   }
   .status-count b { color: var(--purple-dark); }
 
-  /* ===== GRID PRODUK ===== */
   .products {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -238,7 +296,7 @@
 
   .card {
     background: var(--white);
-    border-radius: var(--radius-md);
+    border-radius: 12px;
     border: 1px solid var(--gray-border);
     overflow: hidden;
     display: flex;
@@ -308,25 +366,22 @@
     font-weight: 600;
     color: var(--purple-dark);
   }
-  .btn-pesan {
+  .btn-add-cart {
     display: flex; align-items: center; gap: 4px;
     background: var(--wa-green);
     color: white;
     border: none;
-    border-radius: var(--radius-sm);
+    border-radius: 8px;
     padding: 5px 9px;
     font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     font-family: var(--font-body);
-    text-decoration: none;
     transition: opacity 0.15s;
     flex-shrink: 0;
   }
-  .btn-pesan:hover { opacity: 0.85; }
-  .btn-pesan svg { width:12px; height:12px; }
+  .btn-add-cart:hover { opacity: 0.85; }
 
-  /* ===== EMPTY STATE ===== */
   .empty {
     grid-column: 1/-1;
     text-align: center;
@@ -335,42 +390,12 @@
   }
   .empty-icon { font-size: 40px; margin-bottom: 12px; }
   .empty h3 { font-size: 16px; color: #2C2C2A; margin-bottom: 6px; }
-  .empty p { font-size: 13px; }
 
-  /* ===== LOADING ===== */
-  .loading {
-    grid-column: 1/-1;
-    display: flex; align-items: center; justify-content: center;
-    gap: 10px;
-    padding: 48px;
-    color: var(--gray-text);
-    font-size: 14px;
-  }
-  .spinner {
-    width: 20px; height: 20px;
-    border: 2px solid var(--purple-mid);
-    border-top-color: var(--purple);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ===== SKELETON ===== */
-  .skeleton-card {
-    background: var(--white);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--gray-border);
-    overflow: hidden;
-  }
-  .skel { background: var(--gray-border); border-radius: 4px; animation: pulse 1.2s ease-in-out infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.45} }
-
-  /* ===== FOOTER KONSUL ===== */
   .konsul-strip {
     background: var(--purple-deep);
     padding: 18px 20px;
     margin-top: 32px;
-    border-radius: var(--radius-lg);
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -407,27 +432,160 @@
   }
   .btn-konsul:hover { opacity: 0.88; }
 
-  /* ===== ERROR BANNER ===== */
-  .error-banner {
-    background: var(--red-soft);
-    border: 1px solid #F7C1C1;
-    border-radius: var(--radius-md);
-    padding: 14px 16px;
+  /* CART SIDEBAR */
+  .cart-sidebar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 380px;
+    height: 100%;
+    background: white;
+    box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .cart-sidebar.open { transform: translateX(0); }
+  .cart-header {
+    background: var(--purple);
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .cart-header h2 { font-size: 18px; margin: 0; }
+  .btn-close-cart {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+  }
+  .cart-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px;
+  }
+  .cart-item {
+    background: var(--gray-bg);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .cart-item-info { flex: 1; }
+  .cart-item-name {
+    font-weight: 600;
     font-size: 13px;
+    color: #2C2C2A;
+    margin-bottom: 4px;
+  }
+  .cart-item-sub {
+    font-size: 11px;
+    color: var(--gray-text);
+    margin-bottom: 6px;
+  }
+  .cart-item-price {
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--purple-dark);
+  }
+  .cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    border: 1px solid var(--gray-border);
+    border-radius: 20px;
+    padding: 2px 6px;
+  }
+  .cart-item-qty button {
+    background: none;
+    border: none;
+    color: var(--purple);
+    font-weight: 600;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+  }
+  .cart-item-remove {
+    background: none;
+    border: none;
     color: var(--red-text);
-    margin-bottom: 16px;
-    display: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
   }
+  .cart-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--gray-text);
+  }
+  .cart-empty-icon { font-size: 48px; margin-bottom: 12px; }
+  .cart-footer {
+    background: var(--gray-bg);
+    padding: 16px 20px;
+    flex-shrink: 0;
+    border-top: 1px solid var(--gray-border);
+  }
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .cart-total-label { font-size: 13px; color: var(--gray-text); }
+  .cart-total-amount { font-size: 18px; font-weight: 700; color: var(--purple-dark); }
+  .btn-checkout {
+    width: 100%;
+    background: var(--wa-green);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+  }
+  .btn-checkout:hover { opacity: 0.88; }
+  .btn-checkout:disabled { opacity: 0.5; cursor: not-allowed; }
+  .cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    z-index: 150;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 600px) {
-    .header-search { display: none; }
     .brand-sub { display: none; }
+    .header-center { display: none; }
+    .header-search { display: none; }
     .hero-text h1 { font-size: 18px; }
+    .banner-slider { height: 160px; }
     .products { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .cart-sidebar { width: 100%; }
   }
 
-  /* ===== ANIMASI MASUK ===== */
   .card { animation: fadeUp 0.25s ease both; }
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(10px); }
@@ -447,36 +605,45 @@
         <div class="brand-sub">Apotek Kediri</div>
       </div>
     </div>
-    <div class="header-search">
-      <span class="ico-search">🔍</span>
-      <input type="text" id="searchDesktop" placeholder="Cari nama obat..." autocomplete="off" oninput="onSearch(this.value)"/>
+    <div class="header-center">
+      <a class="nav-link active" href="index.html">Beranda</a>
+      <a class="nav-link" href="faq.html" target="_blank">FAQ</a>
     </div>
-    <a class="btn-wa-header" href="https://wa.me/6285735013424?text=Halo+Nosada+Farma,+saya+ingin+bertanya." target="_blank">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.854L0 24l6.336-1.501A11.96 11.96 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 01-5.003-1.374l-.36-.214-3.727.882.925-3.618-.235-.372A9.793 9.793 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
-      Chat WA
-    </a>
+    <div class="header-right">
+      <button class="btn-cart" onclick="toggleCart()">
+        🛒 Keranjang
+        <span class="cart-badge" id="cartCount" style="display: none;">0</span>
+      </button>
+    </div>
   </div>
 </header>
+
+<!-- BANNER SLIDER -->
+<div class="banner-slider">
+  <div class="slider-container">
+    <div class="slider-slide active" style="background-image: url('images/banner1.jpg');"></div>
+    <div class="slider-slide" style="background-image: url('images/banner2.jpg');"></div>
+    <div class="slider-slide" style="background-image: url('images/banner3.jpg');"></div>
+    <div class="slider-slide" style="background-image: url('images/banner4.jpg');"></div>
+  </div>
+  <div class="slider-dots">
+    <span class="dot active" onclick="goToSlide(0)"></span>
+    <span class="dot" onclick="goToSlide(1)"></span>
+    <span class="dot" onclick="goToSlide(2)"></span>
+    <span class="dot" onclick="goToSlide(3)"></span>
+  </div>
+</div>
 
 <!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-text">
-      <h1>Katalog Obat<br/>Nosada Farma</h1>
-      <p>Temukan obat yang kamu butuhkan,<br/>pesan langsung via WhatsApp.</p>
+      <h1>Katalog Lengkap<br/>Nosada Farma</h1>
+      <p>Temukan obat yang kamu butuhkan,<br/>tambahkan ke keranjang, lalu pesan via WhatsApp.</p>
       <div class="hero-badges">
-        <span class="hero-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Apotek resmi
-        </span>
-        <span class="hero-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          Buka 08.00–21.00
-        </span>
-        <span class="hero-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          Antar area Kediri
-        </span>
+        <span class="hero-badge">📋 Apotek resmi</span>
+        <span class="hero-badge">🕐 Buka 08.00–21.00</span>
+        <span class="hero-badge">🛵 Antar area Kediri</span>
       </div>
     </div>
   </div>
@@ -484,19 +651,6 @@
 
 <!-- MAIN -->
 <div class="main">
-
-  <!-- SEARCH MOBILE -->
-  <div style="margin-bottom:16px; display:none;" id="mobileSearchWrap">
-    <div style="position:relative;">
-      <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:#888;">🔍</span>
-      <input type="text" id="searchMobile" placeholder="Cari nama obat..."
-        style="width:100%;background:#fff;border:1px solid #E4E3F0;border-radius:30px;padding:10px 16px 10px 38px;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;"
-        oninput="onSearch(this.value)" autocomplete="off"/>
-    </div>
-  </div>
-
-  <!-- ERROR -->
-  <div class="error-banner" id="errorBanner"></div>
 
   <!-- KATEGORI -->
   <div class="cats-wrap">
@@ -513,11 +667,7 @@
 
   <!-- GRID -->
   <div class="products" id="prodGrid">
-    <!-- skeleton -->
-    <div class="skeleton-card" style="height:220px;"><div class="skel" style="height:90px;border-radius:0;"></div><div style="padding:10px;"><div class="skel" style="height:10px;width:50%;margin-bottom:8px;"></div><div class="skel" style="height:13px;width:80%;margin-bottom:6px;"></div><div class="skel" style="height:11px;width:60%;margin-bottom:14px;"></div><div class="skel" style="height:28px;"></div></div></div>
-    <div class="skeleton-card" style="height:220px;"><div class="skel" style="height:90px;border-radius:0;"></div><div style="padding:10px;"><div class="skel" style="height:10px;width:50%;margin-bottom:8px;"></div><div class="skel" style="height:13px;width:80%;margin-bottom:6px;"></div><div class="skel" style="height:11px;width:60%;margin-bottom:14px;"></div><div class="skel" style="height:28px;"></div></div></div>
-    <div class="skeleton-card" style="height:220px;"><div class="skel" style="height:90px;border-radius:0;"></div><div style="padding:10px;"><div class="skel" style="height:10px;width:50%;margin-bottom:8px;"></div><div class="skel" style="height:13px;width:80%;margin-bottom:6px;"></div><div class="skel" style="height:11px;width:60%;margin-bottom:14px;"></div><div class="skel" style="height:28px;"></div></div></div>
-    <div class="skeleton-card" style="height:220px;"><div class="skel" style="height:90px;border-radius:0;"></div><div style="padding:10px;"><div class="skel" style="height:10px;width:50%;margin-bottom:8px;"></div><div class="skel" style="height:13px;width:80%;margin-bottom:6px;"></div><div class="skel" style="height:11px;width:60%;margin-bottom:14px;"></div><div class="skel" style="height:28px;"></div></div></div>
+    <div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:#888;">⏳ Memuat data dari Google Sheets...</div>
   </div>
 
   <!-- KONSULTASI -->
@@ -530,81 +680,154 @@
       </div>
     </div>
     <a class="btn-konsul" href="https://wa.me/6285735013424?text=Halo+Nosada+Farma,+saya+ingin+konsultasi+obat." target="_blank">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.854L0 24l6.336-1.501A11.96 11.96 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 01-5.003-1.374l-.36-.214-3.727.882.925-3.618-.235-.372A9.793 9.793 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
-      Konsultasi Sekarang
+      💬 Konsultasi
     </a>
   </div>
 
 </div>
 
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h2>Keranjang Belanja</h2>
+    <button class="btn-close-cart" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="cart-empty-icon">🛒</div>
+      <p>Keranjang kosong</p>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span class="cart-total-label">Total:</span>
+      <span class="cart-total-amount" id="cartTotalAmount">Rp 0</span>
+    </div>
+    <button class="btn-checkout" id="btnCheckout" disabled onclick="checkoutCart()">
+      Lanjut ke WhatsApp
+    </button>
+  </div>
+</div>
+
 <script>
-// =============================================
-// KONFIGURASI — GANTI BAGIAN INI
-// =============================================
 const SHEET_ID  = '1cBldbqvTBOs4GLZzL0d2fpxat-cbu3v7NlvGMlg1bLI';
 const WA_NUMBER = '6285735013424';
-// =============================================
 
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1`;
 
-// Indeks kolom (0-based) sesuai format Vmedis
-const COL = {
-  kode:     0,   // A - Kode Obat
-  nama:     1,   // B - Nama Obat
-  pabrik:   2,   // C - Pabrik
-  golongan: 3,   // D - Golongan (OTC/resep)
-  kategori: 4,   // E - Kategori
-  stok:     10,  // K - Stok Obat
-  satuan:   11,  // L - Satuan
-  harga:    18,  // S - Harga Jual 1
+const COL = { kode: 0, nama: 1, pabrik: 2, golongan: 3, kategori: 4, stok: 10, satuan: 11, harga: 18 };
+
+const ICONS = {
+  default: '💊', topikal: '🧴', vitamin: '🌟', antibiotik: '💉', antifungi: '🍄',
+  analgesik: '🩹', lambung: '🫁', mata: '👁️', tetes: '💧', sirup: '🧪',
+  injeksi: '💉', salep: '🧴', kapsul: '💊', tablet: '💊',
 };
 
-// Ikon per kategori
-const ICONS = {
-  default:   '💊',
-  topikal:   '🧴',
-  vitamin:   '🌟',
-  antibiotik:'💉',
-  antifungi: '🍄',
-  analgesik: '🩹',
-  lambung:   '🫁',
-  mata:      '👁️',
-  tetes:     '💧',
-  sirup:     '🧪',
-  injeksi:   '💉',
-  salep:     '🧴',
-  kapsul:    '💊',
-  tablet:    '💊',
-};
+let allData = [], activeCat = '', searchVal = '', cartItems = [], sliderIndex = 0;
+
+function showSlide(i) {
+  const slides = document.querySelectorAll('.slider-slide');
+  const dots = document.querySelectorAll('.dot');
+  sliderIndex = (i + slides.length) % slides.length;
+  slides.forEach(s => s.classList.remove('active'));
+  dots.forEach(d => d.classList.remove('active'));
+  slides[sliderIndex].classList.add('active');
+  dots[sliderIndex].classList.add('active');
+}
+function nextSlide() { showSlide(sliderIndex + 1); }
+function goToSlide(i) { showSlide(i); }
+setInterval(nextSlide, 5000);
+
+function loadCart() {
+  const saved = localStorage.getItem('nosadaFarmaCart');
+  cartItems = saved ? JSON.parse(saved) : [];
+  updateCartUI();
+}
+function saveCart() {
+  localStorage.setItem('nosadaFarmaCart', JSON.stringify(cartItems));
+  updateCartUI();
+}
+function addToCart(kode, nama, satuan, harga, stok) {
+  if (!stok) { alert('Maaf, obat ini sedang habis.'); return; }
+  const existing = cartItems.find(item => item.kode === kode);
+  if (existing) { existing.qty += 1; } else { cartItems.push({ kode, nama, satuan, harga, qty: 1 }); }
+  saveCart();
+}
+function removeFromCart(kode) {
+  cartItems = cartItems.filter(item => item.kode !== kode);
+  saveCart();
+}
+function updateQty(kode, delta) {
+  const item = cartItems.find(i => i.kode === kode);
+  if (item) { item.qty = Math.max(1, item.qty + delta); saveCart(); }
+}
+function updateCartUI() {
+  const count = cartItems.length;
+  document.getElementById('cartCount').style.display = count > 0 ? 'flex' : 'none';
+  document.getElementById('cartCount').textContent = count;
+  const itemsEl = document.getElementById('cartItems');
+  const totalEl = document.getElementById('cartTotalAmount');
+  const checkoutBtn = document.getElementById('btnCheckout');
+  if (cartItems.length === 0) {
+    itemsEl.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Keranjang kosong</p></div>';
+    totalEl.textContent = 'Rp 0';
+    checkoutBtn.disabled = true;
+  } else {
+    let total = 0;
+    itemsEl.innerHTML = cartItems.map(item => {
+      const subtotal = item.harga * item.qty;
+      total += subtotal;
+      return `<div class="cart-item">
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.nama}</div>
+          <div class="cart-item-sub">${item.satuan}</div>
+          <div class="cart-item-price">${formatRp(item.harga)} × ${item.qty}</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
+          <button class="cart-item-remove" onclick="removeFromCart('${item.kode}')">✕</button>
+          <div class="cart-item-qty">
+            <button onclick="updateQty('${item.kode}', -1)">−</button>
+            <span style="width:20px;text-align:center;font-size:12px;">${item.qty}</span>
+            <button onclick="updateQty('${item.kode}', 1)">+</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+    totalEl.textContent = formatRp(total);
+    checkoutBtn.disabled = false;
+  }
+}
+function toggleCart() {
+  document.getElementById('cartSidebar').classList.toggle('open');
+  document.getElementById('cartOverlay').classList.toggle('open');
+}
+function checkoutCart() {
+  if (cartItems.length === 0) return;
+  let msg = 'Halo Nosada Farma 👋\nSaya ingin memesan:\n\n';
+  let total = 0;
+  cartItems.forEach(item => {
+    const subtotal = item.harga * item.qty;
+    total += subtotal;
+    msg += `• *${item.nama}* (${item.satuan}) × ${item.qty}\n  Rp ${(item.harga * item.qty).toLocaleString('id-ID')}\n`;
+  });
+  msg += `\n*Total: Rp ${total.toLocaleString('id-ID')}*\n\nMohon konfirmasi ketersediaan dan ongkos kirim. Terima kasih.`;
+  window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
+}
 
 function getIcon(kategori) {
   if (!kategori) return ICONS.default;
   const k = kategori.toLowerCase();
-  for (const [key, val] of Object.entries(ICONS)) {
-    if (k.includes(key)) return val;
-  }
+  for (const [key, val] of Object.entries(ICONS)) { if (k.includes(key)) return val; }
   return ICONS.default;
 }
-
 function parseNumber(val) {
   if (val === null || val === undefined) return 0;
   return parseFloat(String(val).replace(/,/g, '')) || 0;
 }
-
 function formatRp(n) {
   return 'Rp ' + Math.round(n).toLocaleString('id-ID');
 }
-
-function waLink(namaObat, satuan, harga) {
-  const msg = encodeURIComponent(
-    `Halo Nosada Farma 👋\nSaya ingin memesan:\n\n*${namaObat}* (${satuan})\nHarga: ${formatRp(harga)}\n\nApakah stok tersedia? Terima kasih.`
-  );
-  return `https://wa.me/${WA_NUMBER}?text=${msg}`;
-}
-
-let allData = [];
-let activeCat = '';
-let searchVal = '';
 
 async function loadData() {
   try {
@@ -613,28 +836,24 @@ async function loadData() {
     const text = await res.text();
     const json = JSON.parse(text.replace(/^.*?({.*}).*$/s, '$1'));
     const rows = json.table.rows;
-
     allData = rows.map(row => {
       const c = row.c || [];
       const val = (i) => c[i] ? (c[i].v !== null && c[i].v !== undefined ? c[i].v : '') : '';
       return {
-        kode:     String(val(COL.kode) || '').trim(),
-        nama:     String(val(COL.nama) || '').trim(),
-        pabrik:   String(val(COL.pabrik) || '').trim(),
+        kode: String(val(COL.kode) || '').trim(),
+        nama: String(val(COL.nama) || '').trim(),
+        pabrik: String(val(COL.pabrik) || '').trim(),
         golongan: String(val(COL.golongan) || '').trim().toUpperCase(),
         kategori: String(val(COL.kategori) || '').trim(),
-        stok:     parseNumber(val(COL.stok)),
-        satuan:   String(val(COL.satuan) || '').trim(),
-        harga:    parseNumber(val(COL.harga)),
+        stok: parseNumber(val(COL.stok)),
+        satuan: String(val(COL.satuan) || '').trim(),
+        harga: parseNumber(val(COL.harga)),
       };
     }).filter(d => d.nama && d.harga > 0);
-
     buildCategories();
     render();
   } catch (e) {
-    showError('Gagal memuat data. Pastikan Google Sheets sudah diatur publik dan SHEET_ID sudah benar. (' + e.message + ')');
-    document.getElementById('prodGrid').innerHTML = '';
-    document.getElementById('statusCount').textContent = 'Gagal memuat';
+    document.getElementById('prodGrid').innerHTML = '<div style="grid-column:1/-1;padding:48px 20px;text-align:center;color:#A32D2D;">❌ Gagal memuat data. Pastikan Google Sheets publik dan SHEET_ID benar.</div>';
   }
 }
 
@@ -660,56 +879,33 @@ function filterCat(cat, el) {
 
 function onSearch(val) {
   searchVal = val;
-  // sync kedua input
-  document.getElementById('searchDesktop').value = val;
-  document.getElementById('searchMobile').value = val;
   render();
 }
 
 function render() {
   const q = searchVal.toLowerCase().trim();
   let filtered = allData;
-
   if (activeCat) filtered = filtered.filter(d => d.kategori === activeCat);
-  if (q) filtered = filtered.filter(d =>
-    d.nama.toLowerCase().includes(q) ||
-    d.kode.toLowerCase().includes(q) ||
-    d.kategori.toLowerCase().includes(q)
-  );
-
+  if (q) filtered = filtered.filter(d => d.nama.toLowerCase().includes(q) || d.kode.toLowerCase().includes(q) || d.kategori.toLowerCase().includes(q));
   const grid = document.getElementById('prodGrid');
   const count = document.getElementById('statusCount');
-
   if (filtered.length === 0) {
-    grid.innerHTML = `<div class="empty">
-      <div class="empty-icon">🔍</div>
-      <h3>Obat tidak ditemukan</h3>
-      <p>Coba kata kunci lain atau tanya langsung ke apoteker</p>
-    </div>`;
-    count.innerHTML = `Menampilkan <b>0</b> produk`;
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1;"><div class="empty-icon">🔍</div><h3>Obat tidak ditemukan</h3><p>Coba kata kunci lain atau tanya langsung ke apoteker</p></div>';
+    count.innerHTML = 'Menampilkan <b>0</b> produk';
     return;
   }
-
-  // Batasi tampil 60 produk untuk performa
   const shown = q || activeCat ? filtered : filtered.slice(0, 60);
-  const isLimited = !q && !activeCat && filtered.length > 60;
-
-  count.innerHTML = q || activeCat
-    ? `Menampilkan <b>${filtered.length}</b> produk`
-    : `Menampilkan <b>${shown.length}</b> dari <b>${filtered.length}</b> produk — gunakan pencarian untuk hasil spesifik`;
-
+  count.innerHTML = q || activeCat ? `Menampilkan <b>${filtered.length}</b> produk` : `Menampilkan <b>${shown.length}</b> dari <b>${filtered.length}</b> produk`;
   grid.innerHTML = shown.map((d, i) => {
-    const isOTC    = d.golongan === 'OTC' || d.golongan === 'BEBAS';
-    const stokAda  = d.stok > 0;
-    const icon     = getIcon(d.kategori);
+    const isOTC = d.golongan === 'OTC' || d.golongan === 'BEBAS';
+    const stokAda = d.stok > 0;
+    const icon = getIcon(d.kategori);
     const badgeCls = isOTC ? 'badge-otc' : 'badge-resep';
     const badgeTxt = isOTC ? 'Bebas' : 'Resep';
-    const stokCls  = stokAda ? 'stok-ada' : 'stok-habis';
-    const stokTxt  = stokAda ? '● Stok tersedia' : '● Stok habis';
-    const subTxt   = [d.pabrik, d.satuan].filter(Boolean).join(' · ') || d.kategori;
-    const link     = stokAda ? waLink(d.nama, d.satuan, d.harga) : `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo Nosada Farma, apakah ' + d.nama + ' sudah tersedia?')}`;
-    const btnTxt   = stokAda ? 'Pesan' : 'Tanya';
-
+    const stokCls = stokAda ? 'stok-ada' : 'stok-habis';
+    const stokTxt = stokAda ? '● Stok tersedia' : '● Stok habis';
+    const subTxt = [d.pabrik, d.satuan].filter(Boolean).join(' · ') || d.kategori;
+    const btnTxt = stokAda ? 'Keranjang' : 'Tanya';
     return `<div class="card" style="animation-delay:${(i % 20) * 25}ms">
       <div class="card-img">
         ${icon}
@@ -721,27 +917,16 @@ function render() {
         <div class="card-sub">${subTxt}</div>
         <div class="card-footer">
           <span class="card-price">${formatRp(d.harga)}</span>
-          <a class="btn-pesan" href="${link}" target="_blank">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.854L0 24l6.336-1.501A11.96 11.96 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 01-5.003-1.374l-.36-.214-3.727.882.925-3.618-.235-.372A9.793 9.793 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
-            ${btnTxt}
-          </a>
+          <button class="btn-add-cart" onclick="stokAda ? addToCart('${d.kode}', '${d.nama.replace(/'/g, "\\'")}', '${d.satuan.replace(/'/g, "\\'")}', ${d.harga}, true) : alert('Stok habis, tanya ke apoteker')">
+            ${btnTxt === 'Keranjang' ? '🛒' : '💬'} ${btnTxt}
+          </button>
         </div>
       </div>
     </div>`;
   }).join('');
 }
 
-function showError(msg) {
-  const el = document.getElementById('errorBanner');
-  el.textContent = '⚠️ ' + msg;
-  el.style.display = 'block';
-}
-
-// Tampilkan search mobile di layar kecil
-if (window.innerWidth <= 600) {
-  document.getElementById('mobileSearchWrap').style.display = 'block';
-}
-
+loadCart();
 loadData();
 </script>
 </body>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FAQ — Nosada Farma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Syne:wght@700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --purple:       #534AB7;
+    --purple-dark:  #3C3489;
+    --purple-deep:  #26215C;
+    --purple-light: #EEEDFE;
+    --gray-bg:      #F7F7FA;
+    --gray-border:  #E4E3F0;
+    --gray-text:    #5F5E5A;
+    --white:        #FFFFFF;
+    --font-display: 'Syne', sans-serif;
+    --font-body:    'Plus Jakarta Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    font-family: var(--font-body);
+    background: var(--gray-bg);
+    color: #2C2C2A;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  header h1 {
+    font-family: var(--font-display);
+    font-size: 32px;
+    margin: 0 0 8px;
+  }
+  header p {
+    font-size: 14px;
+    opacity: 0.9;
+    margin: 0;
+  }
+  .back-link {
+    display: inline-block;
+    margin-top: 16px;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    transition: background 0.15s;
+  }
+  .back-link:hover { background: rgba(255,255,255,0.25); }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  .faq-section {
+    margin-bottom: 48px;
+  }
+  .faq-section-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--purple-dark);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--purple-light);
+  }
+
+  .faq-item {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--gray-border);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .faq-question {
+    padding: 16px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--white);
+    border: none;
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: #2C2C2A;
+    transition: background 0.15s;
+  }
+  .faq-question:hover { background: var(--gray-bg); }
+  .faq-icon {
+    font-size: 18px;
+    color: var(--purple);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  .faq-item.open .faq-icon { transform: rotate(180deg); }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    background: var(--gray-bg);
+  }
+  .faq-item.open .faq-answer {
+    max-height: 500px;
+    padding: 0 20px 16px;
+  }
+  .answer-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--gray-text);
+  }
+  .answer-text strong { color: #2C2C2A; }
+  .answer-text ul {
+    margin: 12px 0 0 20px;
+    padding: 0;
+  }
+  .answer-text li {
+    margin-bottom: 8px;
+  }
+
+  footer {
+    background: var(--purple-deep);
+    color: white;
+    text-align: center;
+    padding: 24px 20px;
+    font-size: 12px;
+  }
+  footer a { color: #EEEDFE; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 24px; }
+    .faq-section-title { font-size: 18px; }
+    .faq-question { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>❓ FAQ — Pertanyaan Umum</h1>
+  <p>Apotek Nosada Farma — Kediri</p>
+  <a href="index.html" class="back-link">← Kembali ke Beranda</a>
+</header>
+
+<div class="container">
+
+  <!-- SEBELUM PESAN -->
+  <div class="faq-section">
+    <div class="faq-section-title">Sebelum Pesan</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Bagaimana cara memesan obat?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          <strong>Langkah-langkahnya sangat mudah:</strong>
+          <ul>
+            <li>Cari obat yang kamu butuhkan di halaman Beranda</li>
+            <li>Klik tombol "🛒 Keranjang" di bawah obat</li>
+            <li>Atur jumlah yang kamu inginkan di sidebar keranjang</li>
+            <li>Klik "Lanjut ke WhatsApp" untuk mengirim pesanan</li>
+            <li>Apoteker kami akan membalas dalam hitungan menit</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Apa perbedaan obat "Bebas" dan "Resep"?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          <strong>Obat Bebas (OTC):</strong> Bisa dibeli langsung tanpa resep dokter. Contoh: paracetamol, vitamin, antasida.
+          <br/><br/>
+          <strong>Obat Resep:</strong> Harus disertai resep dari dokter. Contoh: antibiotik, obat jantung, steroid. Jika kamu memiliki resep, silakan upload atau tanyakan ke apoteker kami.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Bagaimana kalau stok obat habis?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          Jika obat sedang habis, tombol akan berubah menjadi "💬 Tanya". Klik tombol tersebut dan tanyakan kapan obat akan tersedia kembali. Apoteker kami siap membantu!
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Apakah data saya aman?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          Data pesanan kamu dikirim langsung ke WhatsApp pribadi apoteker kami dan tidak disimpan di server manapun. Kami menjaga privasi pelanggan dengan serius. Jika ada pertanyaan, silakan hubungi kami.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PENGIRIMAN & PEMBAYARAN -->
+  <div class="faq-section">
+    <div class="faq-section-title">Pengiriman & Pembayaran</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Berapa biaya pengiriman?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          Biaya pengiriman tergantung jarak lokasi kamu dari apotek. Setelah kamu kirim pesanan, apoteker kami akan menghitung ongkir yang akurat. Umumnya:
+          <ul>
+            <li>Area pusat Kediri: Rp 10.000–15.000</li>
+            <li>Area pinggir Kediri: Rp 20.000–30.000</li>
+          </ul>
+          Konfirmasi ongkir akan diberikan saat apoteker mebalas pesananmu.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Metode pembayaran apa saja yang diterima?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          Kami menerima berbagai metode pembayaran:
+          <ul>
+            <li>💰 Transfer Bank (BCA, BRI, Mandiri, BNI)</li>
+            <li>📱 E-wallet (GoPay, OVO, DANA, LinkAja)</li>
+            <li>👨‍💼 Bayar Langsung saat pengiriman (COD)</li>
+          </ul>
+          Pilih metode yang paling nyaman untuk kamu!
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Berapa lama obat sampai?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          <strong>Area Kediri kota:</strong> 30–60 menit setelah pesanan dikonfirmasi.
+          <br/>
+          <strong>Area pinggir Kediri:</strong> 1–2 jam.
+          <br/><br/>
+          Kami akan memberikan estimasi waktu yang akurat saat menbalas pesananmu di WhatsApp.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Bisakah saya batal pesan?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          Ya, kamu bisa membatalkan pesanan kapan saja. Segera hubungi apoteker melalui WhatsApp dan beritahu ingin membatalkan. Semakin cepat, semakin baik, karena apoteker mungkin sudah mempersiapkan obatmu.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KONSULTASI & RESEP -->
+  <div class="faq-section">
+    <div class="faq-section-title">Konsultasi & Resep</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Bisakah saya tanya-tanya obat ke apoteker?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          <strong>Tentu saja!</strong> Klik tombol "💬 Konsultasi" di bawah atau hubungi WhatsApp kami. Konsultasi dengan apoteker bersertifikat kami <strong>GRATIS</strong>. Kami siap menjawab pertanyaan tentang:
+          <ul>
+            <li>Penggunaan obat yang benar</li>
+            <li>Efek samping obat</li>
+            <li>Interaksi obat dengan obat lain</li>
+            <li>Rekomendasi obat untuk keluhan tertentu</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Bagaimana jika saya punya resep dokter?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          Kamu bisa:
+          <ul>
+            <li><strong>Foto resep</strong> dan kirim via WhatsApp ke kami</li>
+            <li>Tanyakan obat apa saja yang ada di resep</li>
+            <li>Pesanan akan kami siapkan dan antar ke rumah kamu</li>
+          </ul>
+          Resep dokter sangat penting untuk obat-obatan tertentu. Jangan ragu untuk menghubungi kami!
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Apakah apoteker kami bersertifikat?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          Ya, semua apoteker kami adalah lulusan pendidikan apoteker dan memiliki sertifikat dari pemerintah. Kami berkomitmen untuk memberikan layanan terbaik dan konsultasi yang akurat.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAINNYA -->
+  <div class="faq-section">
+    <div class="faq-section-title">Lainnya</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Jam buka apotek berapa saja?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          <strong>Jam Buka Apotek Nosada Farma:</strong>
+          <br/>📅 Senin–Minggu: 08.00–21.00 WIB
+          <br/>📍 Alamat: [Isi dengan alamat apotek kamu]
+          <br/>📞 WhatsApp: 085735013424
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Bagaimana jika ada keluhan atau masukan?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          Kami sangat menghargai masukan dari pelanggan. Silakan hubungi kami melalui WhatsApp atau datang langsung ke apotek. Tim kami siap mendengarkan dan memperbaiki layanan.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span>Apakah ada diskon atau promo khusus?</span>
+        <span class="faq-icon">▼</span>
+      </button>
+      <div class="faq-answer">
+        <div class="answer-text">
+          Ya, kami sering mengadakan promo menarik! Pantau terus banner di halaman beranda untuk info promo terbaru. Kamu juga bisa follow Instagram kami untuk update promo eksklusif dan penawaran spesial.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--gray-border);">
+    <p style="color: var(--gray-text); font-size: 14px;">Pertanyaan tidak dijawab? Hubungi kami langsung!</p>
+    <a href="https://wa.me/6285735013424?text=Halo,+saya+punya+pertanyaan+tentang+apotek." style="display: inline-block; margin-top: 12px; padding: 12px 24px; background: #25D366; color: white; text-decoration: none; border-radius: 30px; font-weight: 600; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+      💬 Chat via WhatsApp
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  <p>Apotek Nosada Farma — Kediri | WA: <a href="https://wa.me/6285735013424">085735013424</a></p>
+  <p style="margin-top: 8px; font-size: 11px;">© 2024 Nosada Farma. Semua hak dilindungi.</p>
+</footer>
+
+<script>
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  item.classList.toggle('open');
+}
+</script>
+</body>
+</html>
