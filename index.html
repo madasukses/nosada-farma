@@ -163,6 +163,59 @@
     .btn-cart .cart-label { display: none; }
   }
 
+
+  /* MODAL KONFIRMASI */
+  .modal-overlay {
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.45); z-index: 300;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.25s;
+    padding: 20px;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal-box {
+    background: white; border-radius: 18px; width: 100%; max-width: 420px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    transform: translateY(20px); transition: transform 0.25s;
+    overflow: hidden;
+  }
+  .modal-overlay.open .modal-box { transform: translateY(0); }
+  .modal-head {
+    background: var(--purple); color: white;
+    padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-head h3 { font-size: 16px; margin: 0; }
+  .btn-close-modal { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+  .modal-body { padding: 20px; }
+  .modal-summary {
+    background: var(--gray-bg); border-radius: 10px; padding: 12px;
+    margin-bottom: 16px; font-size: 12px; color: var(--gray-text); line-height: 1.6;
+  }
+  .modal-summary b { color: var(--purple-dark); font-size: 13px; display: block; margin-bottom: 6px; }
+  .form-group { margin-bottom: 14px; }
+  .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--gray-text); margin-bottom: 6px; letter-spacing: 0.4px; }
+  .form-label span { color: #FF6B6B; }
+  .form-input {
+    width: 100%; border: 1px solid var(--gray-border); border-radius: 10px;
+    padding: 10px 14px; font-size: 14px; font-family: var(--font-body);
+    outline: none; transition: border-color 0.2s; background: white; color: #2C2C2A;
+  }
+  .form-input:focus { border-color: var(--purple); }
+  .form-input.error { border-color: #FF6B6B; }
+  .form-input::placeholder { color: #bbb; }
+  .form-error { font-size: 11px; color: #FF6B6B; margin-top: 4px; display: none; }
+  .modal-footer { padding: 0 20px 20px; display: flex; gap: 10px; }
+  .btn-modal-cancel {
+    flex: 1; background: var(--gray-bg); border: 1px solid var(--gray-border);
+    border-radius: 10px; padding: 12px; font-size: 13px; font-weight: 600;
+    font-family: var(--font-body); cursor: pointer; color: var(--gray-text);
+  }
+  .btn-modal-submit {
+    flex: 2; background: var(--wa-green); color: white; border: none;
+    border-radius: 10px; padding: 12px; font-size: 13px; font-weight: 600;
+    font-family: var(--font-body); cursor: pointer; transition: opacity 0.15s;
+  }
+  .btn-modal-submit:hover { opacity: 0.88; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
@@ -271,9 +324,43 @@
       <span class="cart-total-label">Total:</span>
       <span class="cart-total-amount" id="cartTotalAmount">Rp 0</span>
     </div>
-    <button class="btn-checkout" id="btnCheckout" disabled onclick="checkoutCart()">
+    <button class="btn-checkout" id="btnCheckout" disabled onclick="showOrderModal()">
       Lanjut ke WhatsApp 💬
     </button>
+  </div>
+</div>
+
+
+<!-- MODAL KONFIRMASI ORDER -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>📋 Konfirmasi Pesanan</h3>
+      <button class="btn-close-modal" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-summary" id="modalSummary"></div>
+      <div class="form-group">
+        <label class="form-label" for="inputNama">Nama Lengkap <span>*</span></label>
+        <input class="form-input" type="text" id="inputNama" placeholder="contoh: Budi Santoso" autocomplete="name"/>
+        <div class="form-error" id="errNama">Nama tidak boleh kosong</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputAlamat">Alamat Lengkap <span>*</span></label>
+        <textarea class="form-input" id="inputAlamat" rows="3"
+          placeholder="contoh: Jl. Pemuda No.12, Kel. Mojoroto, Kediri"
+          style="resize:none;"></textarea>
+        <div class="form-error" id="errAlamat">Alamat tidak boleh kosong</div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label" for="inputHp">Nomor HP <span style="color:var(--gray-text);font-weight:400;">(opsional)</span></label>
+        <input class="form-input" type="tel" id="inputHp" placeholder="contoh: 0812xxxx" autocomplete="tel"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-modal-cancel" onclick="closeModal()">Batal</button>
+      <button class="btn-modal-submit" onclick="submitOrder()">Kirim ke WhatsApp 💬</button>
+    </div>
   </div>
 </div>
 
@@ -364,14 +451,59 @@ function updateCartUI() {
       </div>
     </div>`).join('');
 }
-function checkoutCart() {
+function showOrderModal() {
   if (!cartItems.length) return;
-  const total = cartItems.reduce((s, x) => s + x.harga * x.qty, 0);
+  const total = cartItems.reduce((s,x) => s + x.harga*x.qty, 0);
+  const lines = cartItems.map(x =>
+    `• ${x.nama} × ${x.qty} = ${formatRp(x.harga*x.qty)}`
+  ).join('\n');
+  document.getElementById('modalSummary').innerHTML =
+    `<b>Ringkasan pesanan:</b>${lines}\n\n<b>Total: ${formatRp(total)}</b>`.replace(/\n/g,'<br>');
+  // Reset form
+  ['inputNama','inputAlamat','inputHp'].forEach(id => document.getElementById(id).value = '');
+  ['inputNama','inputAlamat'].forEach(id => {
+    document.getElementById(id).classList.remove('error');
+  });
+  ['errNama','errAlamat'].forEach(id => document.getElementById(id).style.display = 'none');
+  document.getElementById('orderModal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('orderModal').classList.remove('open');
+}
+function submitOrder() {
+  const nama    = document.getElementById('inputNama').value.trim();
+  const alamat  = document.getElementById('inputAlamat').value.trim();
+  const hp      = document.getElementById('inputHp').value.trim();
+  let valid = true;
+  if (!nama) {
+    document.getElementById('inputNama').classList.add('error');
+    document.getElementById('errNama').style.display = 'block';
+    valid = false;
+  } else {
+    document.getElementById('inputNama').classList.remove('error');
+    document.getElementById('errNama').style.display = 'none';
+  }
+  if (!alamat) {
+    document.getElementById('inputAlamat').classList.add('error');
+    document.getElementById('errAlamat').style.display = 'block';
+    valid = false;
+  } else {
+    document.getElementById('inputAlamat').classList.remove('error');
+    document.getElementById('errAlamat').style.display = 'none';
+  }
+  if (!valid) return;
+
+  const total = cartItems.reduce((s,x) => s + x.harga*x.qty, 0);
   let msg = 'Halo Nosada Farma 👋\nSaya ingin memesan:\n\n';
   cartItems.forEach(x => {
     msg += `• *${x.nama}* (${x.satuan}) × ${x.qty} = Rp ${(x.harga*x.qty).toLocaleString('id-ID')}\n`;
   });
-  msg += `\n*Total: Rp ${total.toLocaleString('id-ID')}*\n\nMohon konfirmasi ketersediaan dan ongkos kirim. Terima kasih!`;
+  msg += `\n*Total: Rp ${total.toLocaleString('id-ID')}*`;
+  msg += `\n\n*Nama:* ${nama}`;
+  msg += `\n*Alamat:* ${alamat}`;
+  if (hp) msg += `\n*No. HP:* ${hp}`;
+  msg += `\n\nMohon konfirmasi ketersediaan dan ongkos kirim. Terima kasih!`;
+  closeModal();
   window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
 }
 
