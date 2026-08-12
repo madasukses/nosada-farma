@@ -4,8 +4,7 @@
 
 // ⚠️ GANTI INI SETELAH DEPLOY GAS - DI BARIS INI:
 // Setelah deploy GAS, copy Deployment ID, lalu ganti YOUR_DEPLOYMENT_ID
-const GAS_ENDPOINT = "https://script.google.com/macros/d/AKfycbz1a2B3c4D5e6F7g8H9i0J_kLmNoPqRsTuVwXyZ/usercallback";
-
+const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzpa38w_f7r1wTi3IpWjZDfI8wFLySLP_BoE1WRcTFZeatvhSjR-9q1jM6M0w5UN6oa8Q/usercallback";
 // State
 let state = {
     photoBase64: null,
