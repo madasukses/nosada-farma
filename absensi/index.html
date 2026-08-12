@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi Nosada Farma</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📸 Absensi Nosada Farma</h1>
+            <p>Selfie dengan GPS dan Timestamp</p>
+        </div>
+
+        <div class="alert" id="alertBox"></div>
+
+        <div class="clock">
+            <div class="time" id="clock">00:00:00</div>
+            <div class="date" id="date">Loading...</div>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div id="loginForm" class="form-section">
+            <div class="section">
+                <label>👤 Username</label>
+                <input type="text" id="username" placeholder="Masukkan username">
+            </div>
+
+            <div class="section">
+                <label>🔒 Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+
+            <button class="btn btn-primary" onclick="handleLogin()">Login</button>
+        </div>
+
+        <!-- ABSENSI FORM -->
+        <div id="absensiForm" class="form-section hidden">
+            <div class="user-info">
+                <span>Logged in: <strong id="loggedUser"></strong></span>
+                <button class="btn-text" onclick="handleLogout()">Logout</button>
+            </div>
+
+            <hr>
+
+            <div class="section">
+                <label>📍 Lokasi Anda</label>
+                <div class="status-box">
+                    <span class="status-dot" id="locationStatus"></span>
+                    <span id="locationStatusText">Mengambil lokasi...</span>
+                </div>
+                <div class="location-detail" id="addressDisplay">-</div>
+                <input type="hidden" id="latitude">
+                <input type="hidden" id="longitude">
+            </div>
+
+            <div class="section">
+                <label>📷 Selfie Verifikasi</label>
+                
+                <div id="cameraContainer" class="hidden">
+                    <video id="video" playsinline autoplay></video>
+                </div>
+                
+                <img id="preview" class="preview hidden" alt="Preview">
+                
+                <button class="btn btn-success" id="startCameraBtn" onclick="startCamera()">Buka Kamera</button>
+                <button class="btn btn-secondary" id="stopCameraBtn" onclick="stopCamera()" class="hidden">Tutup Kamera</button>
+                <button class="btn btn-info" id="captureBtn" onclick="capturePhoto()" class="hidden">📸 Ambil Foto</button>
+                <button class="btn btn-warning" id="retakeBtn" onclick="retakePhoto()" class="hidden">Ambil Ulang</button>
+            </div>
+
+            <button class="btn btn-primary btn-large" id="submitBtn" onclick="submitAbsensi()" disabled>✓ Kirim Absensi</button>
+        </div>
+    </div>
+
+    <canvas id="canvas" class="hidden"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>
