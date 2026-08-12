@@ -4,7 +4,7 @@
 
 // ⚠️ GANTI INI SETELAH DEPLOY GAS - DI BARIS INI:
 // Setelah deploy GAS, copy Deployment ID, lalu ganti YOUR_DEPLOYMENT_ID
-const GAS_ENDPOINT = "https://script.google.com/macros/d/YOUR_DEPLOYMENT_ID/usercallback";
+const GAS_ENDPOINT = "https://script.google.com/macros/d/AKfycbz1a2B3c4D5e6F7g8H9i0J_kLmNoPqRsTuVwXyZ/usercallback";
 
 // State
 let state = {
